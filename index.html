@@ -21,19 +21,19 @@
     <p class="sub">Pick one of the three ways below.</p>
     <div class="capture-grid">
       <button class="opt" id="btn-camera">
-        <div class="ic"></div>
+        <div class="ic">📸</div>
         <div class="lbl">Use camera</div>
         <div class="hint">Snap a photo with your webcam</div>
       </button>
       <button class="opt" id="btn-upload">
-        <div class="ic"></div>
+        <div class="ic">🖼️</div>
         <div class="lbl">Upload image</div>
         <div class="hint">Any photo or screenshot file</div>
       </button>
       <button class="opt wide" id="btn-paste">
-        <div class="ic"></div>
+        <div class="ic">📋</div>
         <div class="lbl">Paste a screenshot</div>
-        <div class="hint">Screenshot your screen (Win+Shift+S / Cmd+Shift+4), click here, then press Ctrl+V / Cmd+V</div>
+        <div class="hint">Screenshot your screen, click here, then press Ctrl+V</div>
       </button>
     </div>
     <input type="file" id="file-input" accept="image/*">
@@ -45,7 +45,7 @@
       <div class="polaroid"><div class="pin"></div><img id="preview-img" src="" alt="preview"></div>
     </div>
     <h2 style="text-align:center;">2. Pick a difficulty</h2>
-    <p class="sub" style="text-align:center;">More pieces, more fun (and more of a challenge).</p>
+    <p class="sub" style="text-align:center;">More pieces, more challenge.</p>
     <div class="diff-row" id="diff-row">
       <button class="pill" data-n="3">Easy<span>3 × 3</span></button>
       <button class="pill selected" data-n="4">Medium<span>4 × 4</span></button>
@@ -64,43 +64,52 @@
         <div class="stat"><div class="n" id="stat-left">0</div><div class="l">Left</div></div>
       </div>
       <div class="tools">
-        <button class="tbtn" id="btn-hint">Hint</button>
-        <button class="tbtn" id="btn-reshuffle">Reshuffle</button>
-        <button class="tbtn" id="btn-newimage">New image</button>
+        <button class="tbtn" id="btn-hint">👁️ Hint</button>
+        <button class="tbtn" id="btn-reshuffle">🔀 Reshuffle</button>
+        <button class="tbtn" id="btn-newimage">📷 New image</button>
       </div>
     </div>
 
-    <div class="board-wrap">
-      <div id="board">
-        <img id="ghost">
+    <!-- SIDE BY SIDE: Board + Tray -->
+    <div class="game-area">
+      <div class="board-wrap">
+        <div id="board">
+          <img id="ghost">
+        </div>
+      </div>
+
+      <div class="tray-wrap">
+        <div class="tray-header">
+          <span>🧩 Pieces</span>
+          <span id="tray-count"></span>
+        </div>
+        <div class="tray" id="tray"></div>
       </div>
     </div>
 
-    <div class="panel tray-panel">
-      <h2>Pieces <span id="tray-count" style="color:var(--muted); font-family:'Nunito'; font-size:13px; font-weight:600;"></span></h2>
-      <div class="tray" id="tray"></div>
-    </div>
     <p class="footnote">Drag a piece onto the board — it'll snap into place when it's close to home.</p>
   </div>
 </div>
 
+<!-- Camera Modal -->
 <div class="modal-bg" id="camera-modal">
   <div class="modal camera-card">
-    <h2>Smile </h2>
+    <h2>Smile 🙂</h2>
     <p id="camera-status">Starting camera…</p>
     <div class="camera-preview">
       <video id="camera-video" autoplay playsinline muted></video>
     </div>
     <div class="camera-controls">
       <button class="tbtn" id="btn-camera-cancel">Cancel</button>
-      <button class="go-btn shutter-btn" id="btn-camera-shot">Take photo</button>
+      <button class="go-btn shutter-btn" id="btn-camera-shot">📸 Take photo</button>
     </div>
   </div>
 </div>
 
+<!-- Win Modal -->
 <div class="modal-bg" id="win-modal">
   <div class="modal" id="win-card">
-    <div style="font-size:44px;"></div>
+    <div style="font-size:44px;">🏆</div>
     <h2>Solved it!</h2>
     <p id="win-stats">Done in 0:00 with 0 moves.</p>
     <button class="go-btn" id="btn-again">Play again</button>
