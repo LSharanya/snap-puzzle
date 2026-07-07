@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snap & Solve</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow"><span class="dot"></span> Snap & Solve</div>
+    <h1>Turn any screenshot<br>into a <span>jigsaw</span>.</h1>
+    <p>Grab something off your screen and we'll chop it into puzzle pieces you can drag back together.</p>
+  </div>
+
+  <!-- STEP 1: capture -->
+  <div class="panel" id="step-capture">
+    <h2>1. Get a picture</h2>
+    <p class="sub">Pick one of the three ways below.</p>
+    <div class="capture-grid">
+      <button class="opt" id="btn-camera">
+        <div class="ic"></div>
+        <div class="lbl">Use camera</div>
+        <div class="hint">Snap a photo with your webcam</div>
+      </button>
+      <button class="opt" id="btn-upload">
+        <div class="ic"></div>
+        <div class="lbl">Upload image</div>
+        <div class="hint">Any photo or screenshot file</div>
+      </button>
+      <button class="opt wide" id="btn-paste">
+        <div class="ic"></div>
+        <div class="lbl">Paste a screenshot</div>
+        <div class="hint">Screenshot your screen (Win+Shift+S / Cmd+Shift+4), click here, then press Ctrl+V / Cmd+V</div>
+      </button>
+    </div>
+    <input type="file" id="file-input" accept="image/*">
+  </div>
+
+  <!-- STEP 2: difficulty -->
+  <div class="panel hidden" id="step-difficulty">
+    <div style="text-align:center;">
+      <div class="polaroid"><div class="pin"></div><img id="preview-img" src="" alt="preview"></div>
+    </div>
+    <h2 style="text-align:center;">2. Pick a difficulty</h2>
+    <p class="sub" style="text-align:center;">More pieces, more fun (and more of a challenge).</p>
+    <div class="diff-row" id="diff-row">
+      <button class="pill" data-n="3">Easy<span>3 × 3</span></button>
+      <button class="pill selected" data-n="4">Medium<span>4 × 4</span></button>
+      <button class="pill" data-n="5">Hard<span>5 × 5</span></button>
+      <button class="pill" data-n="6">Expert<span>6 × 6</span></button>
+    </div>
+    <button class="go-btn" id="btn-go">Shuffle it up →</button>
+  </div>
+
+  <!-- STEP 3: game -->
+  <div class="hidden" id="step-game">
+    <div class="gamebar">
+      <div class="stats">
+        <div class="stat"><div class="n" id="stat-time">0:00</div><div class="l">Time</div></div>
+        <div class="stat"><div class="n" id="stat-moves">0</div><div class="l">Moves</div></div>
+        <div class="stat"><div class="n" id="stat-left">0</div><div class="l">Left</div></div>
+      </div>
+      <div class="tools">
+        <button class="tbtn" id="btn-hint">Hint</button>
+        <button class="tbtn" id="btn-reshuffle">Reshuffle</button>
+        <button class="tbtn" id="btn-newimage">New image</button>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <div id="board">
+        <img id="ghost">
+      </div>
+    </div>
+
+    <div class="panel tray-panel">
+      <h2>Pieces <span id="tray-count" style="color:var(--muted); font-family:'Nunito'; font-size:13px; font-weight:600;"></span></h2>
+      <div class="tray" id="tray"></div>
+    </div>
+    <p class="footnote">Drag a piece onto the board — it'll snap into place when it's close to home.</p>
+  </div>
+</div>
+
+<div class="modal-bg" id="camera-modal">
+  <div class="modal camera-card">
+    <h2>Smile </h2>
+    <p id="camera-status">Starting camera…</p>
+    <div class="camera-preview">
+      <video id="camera-video" autoplay playsinline muted></video>
+    </div>
+    <div class="camera-controls">
+      <button class="tbtn" id="btn-camera-cancel">Cancel</button>
+      <button class="go-btn shutter-btn" id="btn-camera-shot">Take photo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="win-modal">
+  <div class="modal" id="win-card">
+    <div style="font-size:44px;"></div>
+    <h2>Solved it!</h2>
+    <p id="win-stats">Done in 0:00 with 0 moves.</p>
+    <button class="go-btn" id="btn-again">Play again</button>
+  </div>
+</div>
+
+<script src="puzzle.js"></script>
+<script src="pieces.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
