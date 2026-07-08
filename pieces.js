@@ -1,6 +1,3 @@
-// pieces.js
-// Turns a polygon + image into an actual draggable piece on the board.
-
 window.SS = window.SS || {};
 
 SS.Pieces = (function () {
