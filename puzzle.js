@@ -1,5 +1,3 @@
-// puzzle.js
-// Pure geometry & image-processing helpers for generating the jigsaw grid.
 
 window.SS = window.SS || {};
 
