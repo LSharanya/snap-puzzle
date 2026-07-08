@@ -222,4 +222,112 @@
         const homeX = state.boardOffset + c * state.tileSize - margin;
         const homeY = state.boardOffset + r * state.tileSize - margin;
 
-        const piece = { r, c, el, home
+        const piece = { r, c, el, homeX, homeY, x: 0, y: 0, placed: false, size };
+        state.pieces.push(piece);
+
+        const cleanup = SS.Pieces.attachDrag(piece, () => $('board'), state.tileSize, {
+          onDrop: (p, snapped) => {
+            state.moves++;
+            if (snapped) state.placedCount++;
+            updateStats();
+            if (snapped) checkWin();
+          }
+        });
+        state.cleanupFns.push(cleanup);
+      }
+    }
+  }
+
+  function layoutSideTray(pieces) {
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    const order = shuffle([...pieces]);
+    const tray = $('tray');
+    
+    // Calculate piece size based on tray width
+    const trayWidth = tray.clientWidth || 220;
+    const cols = Math.max(2, Math.floor(trayWidth / (pieces[0].size * 0.55)));
+    const scale = Math.min(0.55, (trayWidth / cols) / pieces[0].size);
+
+    order.forEach((piece, idx) => {
+      piece.placed = false;
+      piece.el.classList.remove('placed');
+      
+      const rowI = Math.floor(idx / cols);
+      const colI = idx % cols;
+      const cellW = piece.size * scale + 4;
+      const x = colI * cellW;
+      const y = rowI * (piece.size * scale + 4);
+      
+      piece.x = x;
+      piece.y = y;
+      piece.el.style.transformOrigin = 'top left';
+      piece.el.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+      
+      // Move piece from board to tray
+      tray.appendChild(piece.el);
+    });
+  }
+
+  // ---------- Stats ----------
+  function resetStats() {
+    state.moves = 0;
+    state.placedCount = 0;
+    updateStats();
+  }
+  
+  function updateStats() {
+    $('stat-moves').textContent = state.moves;
+    $('stat-left').textContent = (state.pieces.length - state.placedCount);
+  }
+  
+  function startTimer() {
+    stopTimer();
+    state.timerStart = Date.now();
+    state.timerInterval = setInterval(() => {
+      const secs = Math.floor((Date.now() - state.timerStart) / 1000);
+      const m = Math.floor(secs / 60), s = secs % 60;
+      $('stat-time').textContent = m + ':' + String(s).padStart(2, '0');
+    }, 300);
+  }
+  
+  function stopTimer() {
+    if (state.timerInterval) {
+      clearInterval(state.timerInterval);
+      state.timerInterval = null;
+    }
+  }
+
+  function checkWin() {
+    if (state.placedCount === state.pieces.length) {
+      stopTimer();
+      const secs = Math.floor((Date.now() - state.timerStart) / 1000);
+      const m = Math.floor(secs / 60), s = secs % 60;
+      $('win-stats').textContent = `Done in ${m}:${String(s).padStart(2, '0')} with ${state.moves} moves.`;
+      $('win-modal').classList.add('show');
+      launchConfetti();
+    }
+  }
+
+  function launchConfetti() {
+    const card = $('win-card');
+    const colors = ['#FFC94D', '#4FD1C5', '#FF6F61', '#a996d6'];
+    for (let i = 0; i < 36; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (1.2 + Math.random() * 1.2) + 's';
+      c.style.animationDelay = (Math.random() * 0.4) + 's';
+      card.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
+    }
+  }
+
+})();
